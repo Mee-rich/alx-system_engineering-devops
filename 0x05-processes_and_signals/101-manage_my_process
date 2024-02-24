@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This scrpt manages 'manage_my_process'
+
+if [ $# -gt 0 ]
