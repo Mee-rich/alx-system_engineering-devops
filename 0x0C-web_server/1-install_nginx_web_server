@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# installs nginx and configure it to listen on port 80
+# prints "Hello World"
+
+# Update package list
+sudo apt-get -y update
+
+# Install nginx
+sudo apt-get -y install nginx
+
+# Ensure nginx is running
+sudo service nginx start
+
+
+# Create a basic HTML file with "Hello World"
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+# Confirm Nginx is listening on port 80
+LISTENING=$(sudo netstat -tuln | grep ':80 ')
+if [ -z "$LISTENING" ];
+then
+	echo "Nginx is not listening on port 80";
+	exit;
+else
+	echo "Nginx is listening on port 80."
+fi
+
+# Restart nginx without systemctl
+sudo kill -s HUP $(cat /var/run/nginx.pid)
+
+echo "Nginx configured successfuly."
