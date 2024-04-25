@@ -5,8 +5,7 @@ apt-get update
 apt-get install -y nginx
 service nginx start
 mkdir /etc/nginx/html
-mkdir /etc/nginx/html
-echo "Hello World!" | sudo tee /var/www/html/index.html > dev/null
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 echo "Ceci n'est pas une page." > /etc/nginx/html/404.html
 echo "server {
 	listen 80;
@@ -22,4 +21,5 @@ echo "server {
 		internal;
 	}
 }" > /etc/nginx/sites-available/default
+
 service nginx restart
