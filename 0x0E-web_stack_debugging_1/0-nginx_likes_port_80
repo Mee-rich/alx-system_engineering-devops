@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Fixes the nginx listening port and reloads the nginx master process
+
+# Replaces occurrences of 'listen 8080' with 'listen 80' in the Nginx configuration file.
+sed -i 's/listen 8080/listen 80/g' /etc/nginx/sites-enabled/default
+
+# Replaces occurrences of 'listen [::]:8080' with 'listen [::]:80' in the Nginx configuration file.
+sed -i 's/listen \[::\]:8080/listen \[::\]:80/g' /etc/nginx/sites-enabled/default
+
+# Finds the PID of the Nginx process and writes it to /run/nginx.pid.
+pgrep nginx -o > /run/nginx.pid
+
+# Reloads the Nginx configuration without stopping the currently running processes.
+nginx -s reload
+
+# Clears the content of /run/nginx.pid.
+echo '' > /run/nginx.pid
