@@ -4,13 +4,13 @@
 #
 balancer="\
 frontend haproxy_balancer
-        bind *:80
+        bind :80
         mode http
         default_backend webservers
 
 backend webservers
         balance roundrobin
-        server 360823-web-01 54.157.191.113:80
+        server 360823-web-01 54.236.30.33:80
         server 360823-web-02 52.91.132.222:80
 "
 # Update packages
