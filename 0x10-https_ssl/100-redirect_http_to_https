@@ -33,22 +33,23 @@ defaults
     errorfile 503 /etc/haproxy/errors/503.http
     errorfile 504 /etc/haproxy/errors/504.http
 
-frontend haproxy_balancer
+frontend http_frontend
     bind :80
     mode http
-    http-request redirect scheme https code 301 unless { ssl_fc }
-    http-request set-header X-Forwarded-Proto http
-    default_backend webservers
+    option httplog
+    option forwardfor
+    http-request redirect scheme https code 301 if !{ ssl_fc }
 
-frontend haproxy_balancer_https
+frontend https_frontend
     bind :443 ssl crt /etc/haproxy/certs/www.icr8.tech.pem
     mode http
-    http-request set-header X-Forwarded-Proto https
+    option httplog
+    option forwardfor
+    http-response set-header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload;"
     default_backend webservers
 
 backend webservers
     balance roundrobin
     server 360823-web-01 54.236.30.33:80 check
     server 360823-web-02 52.91.132.222:80 check
->>>>>>> 45466c4eabad5304d85727a269ec2002fd6e30dd
 
