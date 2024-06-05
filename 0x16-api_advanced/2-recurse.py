@@ -30,7 +30,13 @@ def top_ten(subreddit):
             allow_redirects = False
     )
     if res.status_code == 200:
-        for post in res.json()['data']['children'][0:10]:
-            print(post['data']['title'])
+        data = res.json()['data']
+        posts = data['children']
+        count = len(posts)
+        hot_list.extend(list(map(lambda x: x['data']['title'], posts)))
+        if count >= limit and data['after']:
+             return recurse(subreddit, hot_list, n + count, data['after'])
         else:
-            print(None)
+             return hot_list if hot_list else None
+    else:
+         return hot_list if hot_list else None
